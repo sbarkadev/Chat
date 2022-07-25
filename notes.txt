@@ -1,0 +1,13 @@
+- install swagger 
+     https://docs.nestjs.com/openapi/introduction
+
+- nest generate module room 
+
+- There are a few other important concepts in Nest. js :
+    * DTO: Data transfer object is an object that defines how data will be sent over the network
+    * Interfaces: TypeScript interfaces are used for type-checking and defining the types of data 
+        that can be passed to a controller or a Nest service
+
+https://javascript.plainenglish.io/use-of-dto-for-validation-in-nestjs-application-d37ff55f0560
+DTO or Interfaces ?
+DTO : class Validator ? class Transformer ?
