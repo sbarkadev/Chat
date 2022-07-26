@@ -4,7 +4,7 @@ import { createRoomModel } from './dto/CreateRoomModel.dto';
 
 @Controller('room')
 export class RoomController {
-  @ApiBody({description : "create a Room"})
+  @ApiBody({type : [createRoomModel] , description : "create a Room"})
    @Post('/room')
    create(@Body() createRoomModel : createRoomModel )
    {

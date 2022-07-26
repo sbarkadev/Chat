@@ -16,7 +16,7 @@ export class createRoomModel {
     @IsString()
     name : string
 
-    @ApiProperty()
+    @ApiProperty({description : ' the type should be protected / private or public  '})
     @IsNotEmpty()
     @Transform(({ value }) => value.toLowerCase())
     @IsIn(["protected", "public" ,"private"])
