@@ -11,3 +11,11 @@
 https://javascript.plainenglish.io/use-of-dto-for-validation-in-nestjs-application-d37ff55f0560
 DTO or Interfaces ?
 DTO : class Validator ? class Transformer ?
+
+
+npm install @nestjs/common
+
+npm install class-validator
+
+
+($ npm install class-transformer) to take advantage of ValidationPipe.
