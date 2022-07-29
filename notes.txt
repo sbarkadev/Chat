@@ -19,3 +19,11 @@ npm install class-validator
 
 
 ($ npm install class-transformer) to take advantage of ValidationPipe.
+
+
+--------------------------------------
+npm install @nestjs/websockets
+npm install @nestjs/platform-socket.io
+nest g resource messages => websockets
+
+
