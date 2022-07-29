@@ -26,4 +26,11 @@ npm install @nestjs/websockets
 npm install @nestjs/platform-socket.io
 nest g resource messages => websockets
 
+after building our server socket , we need to create a new project for the client ,
+what we use for the client doesn;t matter 
+
+
+
+npm init vue@latest
+
 
