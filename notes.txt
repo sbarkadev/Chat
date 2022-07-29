@@ -33,4 +33,263 @@ what we use for the client doesn;t matter
 
 npm init vue@latest
 
+npm install --save @nestjs/swagger
 
+-------------------------------------
+
+
+https://tkssharma.com/getting-started-with-nest-js-framework-for-nodejs-apis/
+https://docs.nestjs.com/
+
+package.json 
+nest new nest-rest-api
+
+/* generate a controller called items */ 
+nest g controller items 
+
+
+/* watch the server and update changes => usse ndoemon to constanly watch the server and update it  */
+npm run start:dev
+
+/*  "get the Hello wolrd!"  default behaviour */
+localhost:3000 
+
+localhost:3000/items  {"statusCode":404,"message":"Cannot GET /items","error":"Not Found"}
+
+
+to create an endpoint we use decorator 
+
+
+
+curl -X POST http://localhost:3000/items -H "Content-Type: application/json" --data '{ "name" : "Item One" , "qty" : 100 , "description" : "This is item one" }'
+curl -X PUT http://localhost:3000/items/3  -H "Content-Type: application/json" --data '{ "name" : "Item One" , "qty" : 100 , "description" : "This is item one" }'
+
+
+
+
+- to deal withd atabase we need a service
+- generate a service 
+nest g service items
+
+
+@Injectable() ????????
+
+
+
+npm i -g @nestjs/cli =? gives u the command line interface to be able to generate modules ad services
+
+npm i @nestjs/typeorm typeorm pg @nestjs/config
+
+in .env : list environement variables for the postgres database
+
+
+
+use typeorm  : object relational mapper , basically conencts database through entities
+
+
+prisma
+https://progressivecoder.com/build-a-nestjs-prisma-rest-api/
+
+
+
+https://www.youtube.com/watch?v=GHTA143_b-s
+for nest modules are very important : app.module.ts is a global file
+app.module.ts is the main module of the app that will import other modules
+
+
+https://docs.nestjs.com/modules
+Modules
+A module is a class annotated with a @Module() decorator. The @Module() decorator provides metadata 
+that Nest makes use  of to organize the application structure
+
+decorator is a  function that add some metadata to the current class or function 
+
+a module can import other modules (Application Module can import USER/ORDERS/CHAT/.. Modules)
+every mODULE CAN import controllers and providers
+
+
+usually we orgonize modules into feature modules , so if we have an application , where we have bookmarks,
+authentication logic , login , sign up , user module ( that handles logic related to the user) , database module
+==? breaking down you app into modules
+
+
+Modules in nestjs organizie  your app
+
+
+authentication mODULE
+
+
+launch our application --> bootstrap logic is inside main.ts
+
+
+generate a module with nest   == > nest g module user | nest g module bookmark
+
+when we build a nestjs application : we separate our logic into controllers and service  
+Controllers
+Controllers are responsible for handling incoming requests and returning responses to the client.
+
+Providers || services
+responsible for executing the business logic
+
+
+
+
+@Injectable({}) means it's going to be able to use the dependency injection that NestJs uses under the hood 
+
+what are dependency injection :
+    we have authService class
+    we have AuthControlelr class
+    usually the controller need to class AuthService class
+    Controller will receive the request from the internet ( post request asking to login a user) 
+    Controller will call a function from AuthService and return it's result back to the client back to the browser
+
+    ===> to do that AuthController have to instanciate a AuthService class
+    inside controller  const service = new AuthService()
+    => to avoid doing that  : manage where it's created , and who manages it all we usee "dependency injection"
+    => instead of our controller to actually do 
+
+        import { Controller } from "@nestjs/common";
+        import { AuthService } from "./auth.service";
+
+        @Controller()
+        export class AuthController {
+            constructor() {
+                const service = new AuthService();
+            }
+        }
+
+        it will do  :
+
+        import { Controller } from "@nestjs/common";
+        import { AuthService } from "./auth.service";
+
+        @Controller()
+        export class AuthController {
+            /* we dont need to wowrry about inƒ how to instanciate the authService , and how to pass it to you in that AuthCiontrolelr
+            */
+            constructor(private authService: AuthService) {
+               
+            }
+        }
+
+
+    dependency injection allows us to do not handle dependency management
+
+localhost:3000/auth/signin
+
+
+they are libraries like SQLITE typeORM , mongoose that allow you to connect to database
+but we eill use Prisma a typescript ORM 
+
+Prisma is a query builder, but it's so easy to use basically we define a  model
+
+with prisma we're going to create teh database connection logic , the database module in a  way .
+
+
+==> we need to create a nother module . since the databse moduel will be able to be used by auth module
+(login signup) . it should be used by bookmark module , user module
+
+==>  the databse is a new feature of our app
+
+
+=> to use prisma we need to have two librariries installed => 
+Prisma CLI => allow us to create our schema  and run migrations , deploy migrations into the databse , it's more of a maintenance library
+
+Prisma client : prisma have different clients , the one we're going to use is for javascript
+
+https://www.prisma.io/docs/concepts/components/prisma-cli/installation
+npm install prisma --save-dev
+
+https://www.npmjs.com/package/@prisma/client
+npm i @prisma/client
+
+
+access to prisma CLI
+npx prisma init 
+        ==> 
+            - it will generate several files for us
+            - generate .env file for the environement variables
+            - it creates a postgres connection string by default 
+            - generate prisma folder in thre root directory ( schema.prisma is where we will declare our models)
+            (type ORM create entities place them in your logic != prisma one single place)
+
+- dOCKER compose will automatically allow us to create and destroy docker containers 
+
+- use the relational database postgres version 13
+- database will be exported on the port 5434
+
+https://polar-hub-a40.notion.site/docker-Kubernetes-1-177bcf589dfc47e19d5f773af037a26a 
+
+- to launch our database
+
+- docker compose up dev-db -d (-d is for run it in the background)
+
+- brew install docker-compose
+
+docker-compose up dev-db -d
+
+
+docker logs 17dc51b9523a  => database system is ready to accept connections
+
+brew install docker-compose 
+
+-----------------------------
+prisma will allow us to access to our local database
+npx prisma --help
+
+npx prisma migrate dev => will read schema.prisma and will generate the migrations
+
+----------------------------------
+when we use (npx prisma migrate dev) => prisma also does (npx prisma generate)
+
+generate will create typescript types for your  schema , it creates User interfaces / classes
+
+- inspect our databse with prisma studio (npx prisma studio)
+- prisma studio will connect to the databse in .env file 
+
+- so we created prisma migrations folder (prisma migration dev) and we created prisma.schema (prisma init)
+
+
+create a module to encapsulate all database stuff
+- nest g module prisma 
+
+- create servcie called prisma without spec file for testing
+- nest g service  prisma --no-spec
+
+-----------------
+nestjs use DTO data transfer object , is just an object where you push your data from a request and you can run validation on it 
+
+-----------------------------
+https://wanago.io/2021/03/29/api-nestjs-prisma-postgresql/
+To start using Prisma, we first need to install it
+    npm install prisma
+Once that’s done, we can start using the Prisma CLI. The first thing we want to do is to initialize our configuration
+    npx prisma init
+
+
+
+
+
+nest new APP_NAME --skip-git
+
+
+--------------------------------------------------------
+NestJs   -    socket .io
+Build A WEbDocket server
+
+nest new chat --skip-git
+
+nest g gateway App
+
+npm install @types/socket.io
+npm install @nestjs/websockets
+npm install @nestjs/platform-socket.io
+
+
+---------------------------------
+npm init vue@latest
+
+
+npm run dev ==> to run vuejs 
+
+npm install socket.io-client

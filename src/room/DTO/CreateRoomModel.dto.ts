@@ -2,13 +2,6 @@ import { ApiParam, ApiProperty } from "@nestjs/swagger";
 import { Transform } from "class-transformer";
 import { isEnum, IsIn, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
 
-// enum RoomType {
-//     Protected = "Protected",
-//     Private = "Private",
-//     Publice = "Public"
-// }
-//@isEnum(RoomType)
-
 export class createRoomModel {
     @ApiProperty({description : "The Name of Room"})
     @IsNotEmpty()

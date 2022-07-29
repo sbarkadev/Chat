@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  username String @id 
+  avatar String ?
+  token42_api String @unique
+  email   String ? @unique
+  phoneNumber  String ?  @unique
+  tokenGoogle_api  String ?  @unique
+  tokenSms_api  String ?  @unique
+  losses Int 
+  wins Int
+  friend1 Friendship[] @relation("friend1")
+  friend2 Friendship[] @relation("friend2")
+
+
+  friendInvt1 InvitationFriend[] @relation("invtFriend1")
+  friendInvt2 InvitationFriend[] @relation("invtFriend2")
+  ladder_level Int
+  rooms UserInRoom[]
+  messages MessageRoom[]
+}
+
+
+model UserInRoom {
+  user User @relation(fields: [userName] , references: [username])
+  userName String
+  room Room @relation(fields: [roomName], references: [name])
+  roomName String
+  user_role String
+
+  @@id([userName , roomName])
+
+}
+
+model Room {
+  name String @id
+  type String 
+  users UserInRoom[]
+  password String
+  messages MessageRoom[]
+
+}
+
+model MessageRoom {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  user User @relation(fields: [from] , references: [username])
+  from String
+  room Room @relation(fields: [to_room] , references: [name])
+  to_room String
+  content_msg String
+  wasRead Boolean
+}
+
+
+model Friendship {
+  id Int @id @default(autoincrement())
+  user1 User @relation("friend1" ,fields: [user_1] , references: [username]) 
+  user_1 String
+  user2 User @relation("friend2" , fields: [user_2] , references: [username])
+  user_2 String
+  state_block Boolean
+}
+
+model InvitationFriend {
+  id Int @id @default(autoincrement())
+  user1 User @relation("invtFriend1",fields: [user_1] , references: [username]) 
+  user_1 String
+  user2 User @relation("invtFriend2",fields: [user_2] , references: [username])
+  user_2 String
+
+}
