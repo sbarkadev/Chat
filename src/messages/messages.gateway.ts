@@ -65,8 +65,8 @@ export class MessagesGateway {
   constructor(private readonly messagesService: MessagesService) {}
 
   @SubscribeMessage('createMessage')
-  async create(@MessageBody() createMessageDto: CreateMessageDto) {
-    const message = await  this.messagesService.create(createMessageDto);
+  async create(@MessageBody() createMessageDto: CreateMessageDto , @ConnectedSocket() client : Socket) {
+    const message = await  this.messagesService.create(createMessageDto, client.id);
     /* using the method that coming from sokcet.io  that 
     allows us to emit events to all connected clients 
     and we provide it with an event name */

@@ -293,3 +293,15 @@ npm init vue@latest
 npm run dev ==> to run vuejs 
 
 npm install socket.io-client
+
+
+
+
+
+npm install @nestjs/swagger
+npm install @types/socket.io
+npm install @nestjs/websockets
+npm install @nestjs/platform-socket.io
+
+
+npm install class-validator

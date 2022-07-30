@@ -29,10 +29,16 @@ export class MessagesService {
   {
     return this.clientToUser[clientId];
   }
-  create(createMessageDto: CreateMessageDto) {
+  create(createMessageDto: CreateMessageDto , clientId : string) {
     /* copy what is in the DTO */
-    const message = {...createMessageDto};
-    return this.messages.push(message);
+    const message = {
+
+      name : this.clientToUser[clientId],
+      text : createMessageDto.text,
+
+    };
+    this.messages.push(message);
+    return message;
   }
 
   findAll() {
