@@ -1,14 +1,13 @@
 <script setup>
-// whithin the script i will try to connect to the server
-// import io from socket.io-client
+
 import { io } from 'socket.io-client'
-// import from vue , with ref we can define some local state
+
 import {onBeforeMount, ref} from 'vue';
 
-// make connection to socket server
+
 const socket = io('http://localhost:3000');
 
-// define an array of messages
+
 const messages = ref([]);
 
 const messageText = ref('');
@@ -20,16 +19,15 @@ const name = ref('');
 const typingDisplay = ref('');
 
 onBeforeMount(() => {
-  // event name + payload  {} + response from the serevr
+ 
   socket.emit('findAllMessages', {} , (response) => {
     messages.value = response;
   });
-  // wwe got the messages , so we need to update this list on the ui whenever there is a new message 
+ 
   socket.on('message' ,(message) => {
     messages.value.push(message);
   });
 
-  // add other listenner
   socket.on('typing'  , ({ name, isTyping }) => {
     if(isTyping) {
       typingDisplay.value = `${name} is typing...`;
@@ -44,11 +42,10 @@ const join = () => {
     joined.value = true;
   })
 }
-// clients must be also able to send messages themselves
+
 const sendMessage = () => {
   socket.emit('createMessage', { text: messageText.value} , ()=> {
-    //it will do the push itself using socket.on
-    //messages.value.push(response);]
+
     messageText.value = '';
   })
 }
