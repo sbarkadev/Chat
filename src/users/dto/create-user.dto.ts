@@ -5,7 +5,7 @@ export class CreateUserDto {
     @ApiProperty({description : "name o the user "})
     @IsNotEmpty()
     @IsString()
-    name : string
+    username : string
 
     @ApiProperty({description : "token genrated by 42 api "})
     @IsNotEmpty()
@@ -39,12 +39,19 @@ export class CreateUserDto {
     @ApiProperty({description : "losses"})
     @IsNotEmpty()
     @IsNumber()
-    losses : Number
+    losses : number
     
     @ApiProperty({description : "wins"})
     @IsNotEmpty()
     @IsNumber()
-    wins : Number
+    wins : number
+
+
+    @ApiProperty({description : "ladder level"})
+    @IsNotEmpty()
+    @IsNumber()
+    ladder_level : number
+
 
 
 
