@@ -21,15 +21,15 @@ async function bootstrap() {
 
         /* https://www.youtube.com/watch?v=GYZhmAp_U18 */
         /* https://dev.to/webeleon/cursus-nestjs-validation-via-les-dto-2h25 */
-        // app.useGlobalPipes(new ValidationPipe({
-        //     transform : true,
+        app.useGlobalPipes(new ValidationPipe({
+            transform : true,
 
-        //     // retire tout les champs qui ne sont pas declare dans la dto 
-        //     whitelist : true,
+            // retire tout les champs qui ne sont pas declare dans la dto 
+            whitelist : true,
 
-        //     // rejette les requetes qui contiennent des champs non declare  dans la dto 
-        //     forbidNonWhitelisted : true,
-        //   }));
+            // rejette les requetes qui contiennent des champs non declare  dans la dto 
+            forbidNonWhitelisted : true,
+          }));
         await app.listen(3000);
 }
 bootstrap();

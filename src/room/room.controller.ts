@@ -11,13 +11,21 @@ export class RoomController {
 
      @ApiBody({type : [createRoomModel] , description : "create a Room"})
      @Post('/createRoom/:user_name')
-     create(@Body() createRoomModel : createRoomModel ,@Param('user_name') username : string)
+     async create(@Body() createRoomModel : createRoomModel ,@Param('user_name') username : string)
      {
-          const room = this.roomService.createRoom(username, createRoomModel);
+          const room = await this.roomService.createRoom(username, createRoomModel);
 
           if (room)
                return room ;
           else
                throw new HttpException('room with that name already exist!!', HttpStatus.CONFLICT );
+     }
+
+     //@ApiBody({type : [createRoomModel] , description : "get Public rooms"})
+     @Get('/getPublicRooms')
+     async getPublic()
+     {
+         const publicRooms = await  this.roomService.getPublic();
+         return publicRooms;
      }
 }

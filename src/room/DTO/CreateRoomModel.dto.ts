@@ -15,13 +15,12 @@ export class createRoomModel {
     type: string;
 
     @ApiProperty({ minimum: 6, maximum: 20, description: 'At least 1 capital, 1 small, 1 special character & 1 number' })
-    @MaxLength(20)
-    @MinLength(6)
+    //@MaxLength(20)
+    //@MinLength(6)
     /* https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a */
     /*Minimum 6 and maximum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character: */
-    @Matches( /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
-    { message: 'Password is too weak'})
+    // @Matches( /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
+    // { message: 'Password is too weak'})
     @IsOptional()
-    @IsNotEmpty()
     password : string
 }

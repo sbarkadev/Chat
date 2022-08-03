@@ -18,7 +18,7 @@ npm install @nestjs/common
 npm install class-validator
 
 
-($ npm install class-transformer) to take advantage of ValidationPipe.
+($ ç) to take advantage of ValidationPipe.
 
 
 --------------------------------------
