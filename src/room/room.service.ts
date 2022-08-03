@@ -46,81 +46,37 @@ export class RoomService {
             });
         return createUserInRoom;
       }
-
-      /* select all public rooms (name ,  nbrofusers , owner ) */
-
-    
-      /*
-        {
-          name : "room1",
-          nbr_ofUsers : 2,
-          owner "safa"
-
-        }
-      */
-      // async getPublic() {
-      //   const publicRooms = await this.prisma.room.findMany({
-      //     where : {type : "public"},
-      //     select : {
-      //       name : true,
-      //       type : false,
-      //       users : {
-      //         where : {user_role : "owner"},
-      //         select :{
-      //           userName : true,
-      //         }
-      //       },
-      //       messages : false ,
-      //       password : false
-      //     }
-      //   });
-      //   return publicRooms;
-      // }
-
-
-      async getPublic() {
-        const publicRooms = await this.prisma.userInRoom.findMany({
-          where : {user_role : "owner"},
+      async getPublic(){
+        /* ----------------------first------------------------*/
+        const publicRooms = await this.prisma.room.findMany({
+          where : { type : "public"},
           select : {
-           
-            userName : true ,
-            room : {
-              select : {
-                name : true,
-                type : true,
-                password : false,
-              }
-            }
-          
-          }
-          
-        });
-
-        const count = await this.prisma.room.findMany({
-          include : {
             _count : {
               select : {
-                users : true,
+                users : true
+              },  
+            },
+            users : {
+              where : {user_role : "owner"},
+              select : {
+                userName : true ,
               }
-            }
-          }
-        })
-        return count;
-      }
+            },
+            name : true,
+            type : false,
+            password : false,
+  
+        }});
 
-      // async getPublic() {
-      //   const publicRooms = await this.prisma.userInRoom.findMany({
-      //     where : {user_role : "owner", room.type : "public"},
-      //     include :{
-      //       room : {
-              
-      //       }
-      //     }
-      //   });
+        
+        return publicRooms;
 
-      //   return publicRooms;
-      // }
 
+        /* ----------------------second------------------------*/
+ 
+
+}
 
 
 }
+

@@ -1,9 +1,12 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Injectable, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { ApiBody, ApiParam } from '@nestjs/swagger';
+import { isISO8601 } from 'class-validator';
 import { createRoomModel } from './dto/CreateRoomModel.dto';
+import { RoomInfos } from './entities/roomInfos.entity';
 import { RoomService } from './room.service';
 
 @Controller('room')
+@Injectable()
 export class RoomController {
 
 
@@ -25,7 +28,35 @@ export class RoomController {
      @Get('/getPublicRooms')
      async getPublic()
      {
-         const publicRooms = await  this.roomService.getPublic();
-         return publicRooms;
+          var result = [];
+          var roominfos  =  [];
+          const j = await  this.roomService.getPublic().then((publicRooms) => {
+               var keys = Object.keys(publicRooms);
+               keys.forEach(function(key){
+                    result.push(publicRooms[key]);
+               });
+               return result;
+          }).then((result) => {
+               roominfos = new RoomInfos[result.length];
+               for(let i = 0 ; i < result.length; i++)
+               {
+                    let room= new RoomInfos;
+                    room.nbr_users = result[i]._count.users;
+                    roominfos.push(room);
+
+               }
+
+               // for(let i = 0 ; i < result.length ; i++ )
+               // {
+               //      let room = new  RoomInfos();
+               //      typeof(room.owner)
+               // }
+
+          })
+        
+
+         return roominfos;
      }
 }
+
+// https://tkssharma.com/nestjs-dependency-injection-and-custom-providers/
