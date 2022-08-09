@@ -28,6 +28,7 @@ model User {
   friendInvt2 InvitationFriend[] @relation("invtFriend2")
   ladder_level Int
   rooms UserInRoom[]
+  owner_rooms Room[]
   messages MessageRoom[]
 }
 
@@ -46,6 +47,8 @@ model UserInRoom {
 model Room {
   name String @id
   type String 
+  user User @relation( fields: [owner] , references: [username] )
+  owner String
   users UserInRoom[]
   password String
   messages MessageRoom[]

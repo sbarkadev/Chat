@@ -23,8 +23,6 @@ export class RoomService {
           console.log("room already exist\n");
           return null;
         }
-      
-      
         const createUserInRoom = await this.prisma.userInRoom.create
         ({
             data : {
@@ -38,7 +36,8 @@ export class RoomService {
                   {
                     name : fields.name,
                     type : fields.type,
-                    password : fields.password
+                    password : fields.password,
+                    owner :user_name
                   },
               },
               user_role : 'owner',
@@ -46,37 +45,67 @@ export class RoomService {
             });
         return createUserInRoom;
       }
-      async getPublic(){
-        /* ----------------------first------------------------*/
-        const publicRooms = await this.prisma.room.findMany({
-          where : { type : "public"},
+
+      // ----------------------------------------------------------------------
+
+      async getAllRooms() {
+        const allRooms = await this.prisma.room.findMany({
+          select : {
+            name : true,
+            type : true,
+            owner : true,
+          }
+        });
+        return allRooms;
+      }
+
+
+      // ------------------------------------------------------------------------
+      async getRooms(type : string){
+
+        const rooms = await this.prisma.room.findMany({
+          where : { type : type},
           select : {
             _count : {
               select : {
                 users : true
               },  
             },
-            users : {
-              where : {user_role : "owner"},
-              select : {
-                userName : true ,
-              }
-            },
             name : true,
             type : false,
+            owner : true,
             password : false,
   
         }});
+        return rooms;
+    }
 
+    async getPrivateRooms(user_name : string) {
+
+    const rooms = await this.prisma.room.findMany({
+      where : {
+       type :{
+          equals : "private"
+       },
+       users : {
+        some :
+          {
+            userName : user_name
+          }
+       }
+    },
+      select : {
+        name : true,
+        owner : true,
+        _count : {
+          select : {
+            users : true
+          },  
+        },
         
-        return publicRooms;
+      }
 
-
-        /* ----------------------second------------------------*/
- 
-
+    });
+      return rooms;
+    }
 }
-
-
-}
-

@@ -27,6 +27,7 @@ CREATE TABLE "UserInRoom" (
 CREATE TABLE "Room" (
     "name" TEXT NOT NULL,
     "type" TEXT NOT NULL,
+    "owner" TEXT NOT NULL,
     "password" TEXT NOT NULL,
 
     CONSTRAINT "Room_pkey" PRIMARY KEY ("name")
@@ -83,6 +84,9 @@ ALTER TABLE "UserInRoom" ADD CONSTRAINT "UserInRoom_userName_fkey" FOREIGN KEY (
 
 -- AddForeignKey
 ALTER TABLE "UserInRoom" ADD CONSTRAINT "UserInRoom_roomName_fkey" FOREIGN KEY ("roomName") REFERENCES "Room"("name") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Room" ADD CONSTRAINT "Room_owner_fkey" FOREIGN KEY ("owner") REFERENCES "User"("username") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "MessageRoom" ADD CONSTRAINT "MessageRoom_from_fkey" FOREIGN KEY ("from") REFERENCES "User"("username") ON DELETE RESTRICT ON UPDATE CASCADE;

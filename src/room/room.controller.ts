@@ -24,39 +24,32 @@ export class RoomController {
                throw new HttpException('room with that name already exist!!', HttpStatus.CONFLICT );
      }
 
-     //@ApiBody({type : [createRoomModel] , description : "get Public rooms"})
-     @Get('/getPublicRooms')
-     async getPublic()
+     @Get('/allRooms')
+     async getAllRooms()
      {
-          var result = [];
-          var roominfos  =  [];
-          const j = await  this.roomService.getPublic().then((publicRooms) => {
-               var keys = Object.keys(publicRooms);
-               keys.forEach(function(key){
-                    result.push(publicRooms[key]);
-               });
-               return result;
-          }).then((result) => {
-               roominfos = new RoomInfos[result.length];
-               for(let i = 0 ; i < result.length; i++)
-               {
-                    let room= new RoomInfos;
-                    room.nbr_users = result[i]._count.users;
-                    roominfos.push(room);
-
-               }
-
-               // for(let i = 0 ; i < result.length ; i++ )
-               // {
-               //      let room = new  RoomInfos();
-               //      typeof(room.owner)
-               // }
-
-          })
-        
-
-         return roominfos;
+          return await this.roomService.getAllRooms();
      }
-}
 
+     // @ApiBody({type : [createRoomModel] , description : "get Public rooms"})
+     @Get('/getPublicRooms')
+     async getPublicRooms()
+     {
+         return await  this.roomService.getRooms("public");
+     }
+
+     @Get('/getProtectedRooms')
+     async getProtectedRooms()
+     {
+         return await  this.roomService.getRooms("protected");
+     }
+     
+     //https://www.prisma.io/docs/concepts/components/prisma-client/filtering-and-sorting
+     @Get('/getPrivateRooms/:user_name')
+     async getPrivateRooms(@Param('user_name') username : string)
+     {
+        
+         return await  this.roomService.getPrivateRooms(username);
+     }
+
+}
 // https://tkssharma.com/nestjs-dependency-injection-and-custom-providers/

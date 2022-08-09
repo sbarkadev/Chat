@@ -7,6 +7,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class UsersService {
 
   constructor(readonly prisma : PrismaService) {}
+
+  //---------------------------------
   async createUser(createUserDto: CreateUserDto)  { // : Promise<User>
    
       const userCount = await this.prisma.user.count
@@ -28,6 +30,8 @@ export class UsersService {
   return createUser;
   }
 
+  //---------------------------------
+  
   async getUsers()
   {
     const users = await this.prisma.user.findMany({
