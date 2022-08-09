@@ -2,7 +2,6 @@ import { Body, Controller, Get, HttpException, HttpStatus, Injectable, Param, Pa
 import { ApiBody, ApiParam } from '@nestjs/swagger';
 import { isISO8601 } from 'class-validator';
 import { createRoomModel } from './dto/CreateRoomModel.dto';
-import { RoomInfos } from './entities/roomInfos.entity';
 import { RoomService } from './room.service';
 
 @Controller('room')
@@ -12,7 +11,7 @@ export class RoomController {
 
   constructor(private readonly roomService: RoomService) {}
 
-     @ApiBody({type : [createRoomModel] , description : "create a Room"})
+     @ApiBody({type : createRoomModel , description : "create a Room"})
      @Post('/createRoom/:user_name')
      async create(@Body() createRoomModel : createRoomModel ,@Param('user_name') username : string)
      {
@@ -42,7 +41,7 @@ export class RoomController {
      {
          return await  this.roomService.getRooms("protected");
      }
-     
+
      //https://www.prisma.io/docs/concepts/components/prisma-client/filtering-and-sorting
      @Get('/getPrivateRooms/:user_name')
      async getPrivateRooms(@Param('user_name') username : string)

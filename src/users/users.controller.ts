@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, Htt
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { response, Response } from 'express';
+import { ApiBody } from '@nestjs/swagger';
 
 
 @Controller('users')
@@ -43,7 +44,15 @@ export class UsersController {
      return this.usersService.getUsers();
   }
 
+  
+  @Post('/addUserToRoom/:user_name/:room_name')
+  async addUserToRoom(@Param('user_name') user_name : string , @Param('room_name') room_name : string)
+  {
+     return await this.usersService.addUserToRoom(user_name,room_name);
+  }
+
 }
+
 
 
 
@@ -64,3 +73,5 @@ export class UsersController {
 the nest way => instead of using the request and the response object , we can return an object directly to the user,
 if the object not found we throw an error , and nest will handle it for us underneath the hood ,a nd will return the appropriate response
 */
+
+

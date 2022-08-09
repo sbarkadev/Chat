@@ -31,7 +31,7 @@ export class UsersService {
   }
 
   //---------------------------------
-  
+
   async getUsers()
   {
     const users = await this.prisma.user.findMany({
@@ -41,4 +41,28 @@ export class UsersService {
     });
     return users
   }
+
+  //
+
+  async addUserToRoom(user_name : string, room_name )
+  {
+        const createUserInRoom = await this.prisma.userInRoom.create({
+          data : {
+            user : {
+              connect : {
+                username : user_name
+              },
+            },
+            room : {
+              connect : {
+                name : room_name
+              },
+            },
+            user_role : 'user', 
+          }
+        });
+    return createUserInRoom;
+
+  }
 }
+
